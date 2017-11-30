@@ -10,8 +10,11 @@
 </style>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>欢迎访问51上传</title>
+<title>欢迎访问51商城</title>
 </head>
+<script type="text/javascript">
+	window.location.href="front/index.jsp";	//直接跳转到首页
+</script>
 <body>
 欢迎访问51商城
 <br>
