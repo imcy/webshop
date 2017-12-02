@@ -33,8 +33,6 @@ public class ConnDB {
 		if (conn == null) {
 			System.err.println("DbConnectionManger.getConnection():" + dbClassName + "\r\n" + dbUrl + "\r\n" + dbUser
 					+ "/" + dbPwd);
-		} else {
-			System.out.println("数据库连接成功");
 		}
 		return conn;
 	}
@@ -77,6 +75,31 @@ public class ConnDB {
 			e.printStackTrace();
 		}
 		return rs;
+	}
+
+	/**
+	 * 功能：更新数据后获取生成的自动编号
+	 * 
+	 * @param sql
+	 * @return
+	 */
+	public int executeUpdate_id(String sql) {
+		int result = 0;
+		try { // 捕捉异常
+			conn = getConnection(); // 获取数据库连接
+			// 创建用于执行SQL语句的Statement对象
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			result = stmt.executeUpdate(sql); // 执行SQL语句
+			String ID = "select @@IDENTITY as id"; // 定义用于获取刚刚生成的自动编号的SQL语句
+			rs = stmt.executeQuery(ID); // 获取刚刚生成的自动编号
+			if (rs.next()) { // 如果存在数据
+				int autoID = rs.getInt("id"); // 把获取到的自动编号保存到变量autoID中
+				result = autoID;
+			}
+		} catch (SQLException ex) { // 处理异常
+			result = 0;
+		}
+		return result; // 返回获取结果
 	}
 
 	/*
